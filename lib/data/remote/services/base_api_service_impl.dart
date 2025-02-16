@@ -17,7 +17,7 @@ class BaseApiServiceImpl implements BaseApiService {
     }
     try {
       var response = await http
-          .put(
+          .post(
             headers: header,
             Uri.parse(url),
             body: jsonEncode(requestBody),
@@ -30,12 +30,13 @@ class BaseApiServiceImpl implements BaseApiService {
           responseBody = jsonDecode(response.body);
           break;
         case 401:
-          throw UnAuthorization;
+          throw UnAuthorization("");
+          break;
         case 400:
           responseBody = jsonDecode(response.body);
           break;
         case 500:
-          throw InternalServerError;
+          throw InternalServerError();
       }
     } catch (e) {
       print("General error {$e}");
